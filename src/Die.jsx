@@ -1,5 +1,4 @@
 import React from 'react';
-import './index.css';
 
 export default function Die({ value, isHeld, holdDice }) {
   const styles = { backgroundColor: isHeld ? '#2261de' : 'white' };
