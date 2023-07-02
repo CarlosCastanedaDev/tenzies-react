@@ -1,3 +1,6 @@
+html {
+  box-sizing: border-box;
+}
 body {
   background-color: #2261de;
   font-family: 'Inter';
@@ -38,7 +41,15 @@ p {
   text-align: center;
 }
 .rules {
-  padding-bottom: 20px;
+  margin-bottom: 25px;
+  height: 60px;
+}
+
+.win {
+  margin-bottom: 25px;
+  height: 60px;
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 
 .btn {

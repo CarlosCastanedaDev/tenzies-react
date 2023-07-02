@@ -80,7 +80,7 @@ export default function App() {
         <div className='main'>
           <h1>Tenzies</h1>
           {tenzies ? (
-            <h1>Great job! 🎉</h1>
+            <p className='win'>Great job! 🎉</p>
           ) : (
             <p className='rules'>
               Roll until all dice are the same. Click each die to freeze it at
@@ -100,7 +100,11 @@ export default function App() {
         </div>
         <div className='high-score'>
           <p>Best Game</p>
-          <p>{localStorage.getItem('highScore')}</p>
+          <p>
+            {!localStorage.getItem('highScore')
+              ? 0
+              : localStorage.getItem('highScore')}
+          </p>
         </div>
       </div>
     </>
