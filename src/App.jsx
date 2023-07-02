@@ -6,7 +6,9 @@ import Confetti from 'react-confetti';
 
 export default function App() {
   const [dice, setDice] = useState(allNewDiceArray());
+  const [rolls, setRolls] = useState(0);
   const [tenzies, setTenzies] = useState(false);
+  const [highScore, setHighScore] = useState(null);
 
   useEffect(() => {
     const allHeld = dice.every((die) => die.isHeld);
@@ -14,6 +16,13 @@ export default function App() {
     const allSameValue = dice.every((die) => die.value === firstValue);
     if (allHeld && allSameValue) {
       setTenzies(true);
+      if (highScore === null) {
+        setHighScore(rolls);
+        localStorage.setItem('highScore', rolls.toString());
+      }
+      if (rolls < highScore) {
+        localStorage.setItem('highScore', rolls.toString());
+      }
     }
   }, [dice]);
 
@@ -40,9 +49,11 @@ export default function App() {
           return die.isHeld ? die : generateNewDie();
         })
       );
+      setRolls((prev) => prev + 1);
     } else {
       setTenzies(false);
       setDice(allNewDiceArray);
+      setRolls(0);
     }
   }
 
@@ -64,23 +75,35 @@ export default function App() {
   ));
 
   return (
-    <div className='container'>
-      {tenzies && <Confetti />}
-      <div className='main'>
-        <h1>Tenzies</h1>
-        {tenzies ? (
-          <h1>You Won!!!</h1>
-        ) : (
-          <p>
-            Roll until all dice are the same. Click each die to freeze it at its
-            current value between rolls.
-          </p>
-        )}
-        <div className='dice-container'>{diceElements}</div>
-        <div className='btn' onClick={rollDice}>
-          {tenzies ? 'New Game' : 'Roll'}
+    <>
+      <div className='container'>
+        {tenzies && <Confetti />}
+        <div className='main'>
+          <h1>Tenzies</h1>
+          {tenzies ? (
+            <h1>Great job! 🎉</h1>
+          ) : (
+            <p className='rules'>
+              Roll until all dice are the same. Click each die to freeze it at
+              its current value between rolls.
+            </p>
+          )}
+          <div className='dice-container'>{diceElements}</div>
+          <div className='btn' onClick={rollDice}>
+            {tenzies ? 'New Game' : 'Roll 🎲'}
+          </div>
         </div>
       </div>
-    </div>
+      <div className='score'>
+        <div className='current'>
+          <p>Current Rolls</p>
+          <p>{rolls}</p>
+        </div>
+        <div className='high-score'>
+          <p>Best Game</p>
+          <p>{localStorage.getItem('highScore')}</p>
+        </div>
+      </div>
+    </>
   );
 }
