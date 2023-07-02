@@ -8,7 +8,6 @@ export default function App() {
   const [dice, setDice] = useState(allNewDiceArray());
   const [rolls, setRolls] = useState(0);
   const [tenzies, setTenzies] = useState(false);
-  const [highScore, setHighScore] = useState(null);
 
   useEffect(() => {
     const allHeld = dice.every((die) => die.isHeld);
@@ -16,11 +15,11 @@ export default function App() {
     const allSameValue = dice.every((die) => die.value === firstValue);
     if (allHeld && allSameValue) {
       setTenzies(true);
-      if (highScore === null) {
-        setHighScore(rolls);
-        localStorage.setItem('highScore', rolls.toString());
-      }
-      if (rolls < highScore) {
+      let highScore;
+      if (!localStorage.getItem('highScore')) {
+        highScore = rolls;
+        localStorage.setItem('highScore', highScore.toString());
+      } else if (rolls < +localStorage.getItem('highScore')) {
         localStorage.setItem('highScore', rolls.toString());
       }
     }
